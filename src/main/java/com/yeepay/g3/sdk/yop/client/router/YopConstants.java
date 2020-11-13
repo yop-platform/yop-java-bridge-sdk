@@ -1,0 +1,96 @@
+package com.yeepay.g3.sdk.yop.client.router;
+
+import com.google.common.base.Joiner;
+
+/**
+ * <pre>
+ * 功能说明：
+ * </pre>
+ *
+ * @author wang.bao
+ * @version 1.0
+ */
+public class YopConstants {
+
+    // Initialize DEFAULT_USER_AGENT
+    static {
+        String language = System.getProperty("user.language");
+        if (language == null) {
+            language = "";
+        }
+        String region = System.getProperty("user.region");
+        if (region == null) {
+            region = "";
+        }
+        USER_AGENT = Joiner.on('/').join(YopConstants.CLIENT_LANGS, YopConstants.CLIENT_VERSION,
+                System.getProperty("os.name"),
+                System.getProperty("os.version"),
+                System.getProperty("java.vm.name"),
+                System.getProperty("java.vm.version"),
+                System.getProperty("java.version"), language, region, "bridge-sdk")
+                .replace(' ', '_');
+    }
+
+    public static final String CLIENT_VERSION = "3.3.6";
+    public static final String CLIENT_LANGS = "java";
+
+    public static String USER_AGENT;
+
+    public static final String ENCODING = "UTF-8";
+
+    public static final String SUCCESS = "SUCCESS";
+
+    // 方法的默认参数名
+    public static final String METHOD = "method";
+
+    // 格式化默认参数名
+    public static final String FORMAT = "format";
+
+    // 本地化默认参数名
+    public static final String LOCALE = "locale";
+
+    // 会话id默认参数名
+    public static final String SESSION_ID = "sessionId";
+
+    // 应用键的默认参数名 ;
+    public static final String APP_KEY = "appKey";
+
+    // 服务版本号的默认参数名
+    public static final String VERSION = "v";
+
+    // 签名的默认参数名
+    public static final String SIGN = "sign";
+
+    // 返回结果是否签名
+    public static final String SIGN_RETURN = "signRet";
+
+    // 商户编号
+    public static final String CUSTOMER_NO = "customerNo";
+
+    // 加密报文key
+    public static final String ENCRYPT = "encrypt";
+
+    // 时间戳
+    public static final String TIMESTAMP = "ts";
+
+    // 保护参数
+    public static final String[] PROTECTED_KEY = {APP_KEY, VERSION, SIGN, METHOD, FORMAT, LOCALE,
+            SESSION_ID, CUSTOMER_NO, ENCRYPT, SIGN_RETURN, TIMESTAMP};
+
+    public static final String ALG_SHA256 = "SHA256";
+
+    /**
+     * 判断是否为保护参数
+     *
+     * @param key 参数名
+     * @return 是否为保护参数
+     */
+    public static boolean isProtectedKey(String key) {
+        for (String k : YopConstants.PROTECTED_KEY) {
+            if (k.equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
