@@ -4,7 +4,7 @@
     <groupId>com.yeepay.yop.sdk</groupId>
     <artifactId>yop-java-bridge-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>3.3.6</version>
+    <version>4.0.2</version>
 
     <name>yop-java-bridge-sdk</name>
     <url>https://github.com/yop-platform/yop-java-bridge-sdk</url>
@@ -19,7 +19,7 @@
         <guava.version>18.0</guava.version>
         <jackson.version>2.11.2</jackson.version>
         <jackson-databind.version>2.11.2</jackson-databind.version>
-        <yop-java-sdk.version>3.3.6</yop-java-sdk.version>
+        <yop-java-sdk.version>4.0.2</yop-java-sdk.version>
         <junit-version>4.12</junit-version>
         <slf4j-api.version>1.7.21</slf4j-api.version>
     </properties>
