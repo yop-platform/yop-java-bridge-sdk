@@ -8,6 +8,11 @@ import com.yeepay.g3.sdk.yop.exception.YopClientException;
 import com.yeepay.g3.sdk.yop.http.Headers;
 import com.yeepay.yop.sdk.auth.credentials.PKICredentialsItem;
 import com.yeepay.yop.sdk.auth.credentials.YopPKICredentials;
+import com.yeepay.yop.sdk.config.enums.CertStoreType;
+import com.yeepay.yop.sdk.config.provider.YopSdkConfigProviderRegistry;
+import com.yeepay.yop.sdk.config.provider.file.YopCertConfig;
+import com.yeepay.yop.sdk.config.provider.file.YopFileSdkConfig;
+import com.yeepay.yop.sdk.config.provider.file.YopFileSdkConfigProvider;
 import com.yeepay.yop.sdk.security.CertTypeEnum;
 import com.yeepay.yop.sdk.security.rsa.RSAKeyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -61,8 +66,15 @@ public class YopRequest {
         Validate.notBlank(appKey, "AppKey is blank.");
         Validate.notBlank(secretKey, "SecretKey is blank.");
         PKICredentialsItem pkiCredentialsItem = new PKICredentialsItem(RSAKeyUtils.string2PrivateKey(secretKey), null, CertTypeEnum.RSA2048);
-        YopPKICredentials yopPKICredentials = new YopPKICredentials(appKey, null, pkiCredentialsItem);
-        yopRequest.getRequestConfig().setCredentials(yopPKICredentials);
+        YopFileSdkConfigProvider yopFileSdkConfigProvider = (YopFileSdkConfigProvider) (YopSdkConfigProviderRegistry.getProvider());
+        YopFileSdkConfig yopFileSdkConfig = yopFileSdkConfigProvider.loadYopFileSdkConfig();
+        YopCertConfig yopCertConfig = new YopCertConfig();
+        yopCertConfig.setCertType(CertTypeEnum.RSA2048);
+        yopCertConfig.setStoreType(CertStoreType.STRING);
+        yopCertConfig.setValue(secretKey);
+        YopCertConfig[] yopCertConfigs = new YopCertConfig[1];
+        yopCertConfigs[0] = yopCertConfig;
+        yopFileSdkConfig.setIsvPrivateKey(yopCertConfigs);
     }
 
     public YopRequest setSubCustomerId(String subCustomerId) {
