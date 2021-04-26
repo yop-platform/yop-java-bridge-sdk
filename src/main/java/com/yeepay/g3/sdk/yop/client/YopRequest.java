@@ -3,9 +3,13 @@ package com.yeepay.g3.sdk.yop.client;
 import com.google.common.collect.Multimap;
 import com.yeepay.g3.sdk.yop.client.router.YopConstants;
 import com.yeepay.g3.sdk.yop.encrypt.Assert;
+import com.yeepay.g3.sdk.yop.encrypt.RSA;
 import com.yeepay.g3.sdk.yop.exception.YopClientException;
 import com.yeepay.g3.sdk.yop.http.Headers;
-import com.yeepay.yop.sdk.auth.credentials.YopRSACredentials;
+import com.yeepay.yop.sdk.auth.credentials.PKICredentialsItem;
+import com.yeepay.yop.sdk.auth.credentials.YopPKICredentials;
+import com.yeepay.yop.sdk.security.CertTypeEnum;
+import com.yeepay.yop.sdk.security.rsa.RSAKeyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -56,7 +60,9 @@ public class YopRequest {
     public YopRequest(String appKey, String secretKey) {
         Validate.notBlank(appKey, "AppKey is blank.");
         Validate.notBlank(secretKey, "SecretKey is blank.");
-        yopRequest.getRequestConfig().setCredentials(new YopRSACredentials(appKey, secretKey));
+        PKICredentialsItem pkiCredentialsItem = new PKICredentialsItem(RSAKeyUtils.string2PrivateKey(secretKey), null, CertTypeEnum.RSA2048);
+        YopPKICredentials yopPKICredentials = new YopPKICredentials(appKey, null, pkiCredentialsItem);
+        yopRequest.getRequestConfig().setCredentials(yopPKICredentials);
     }
 
     public YopRequest setSubCustomerId(String subCustomerId) {
@@ -209,7 +215,8 @@ public class YopRequest {
 
     @Deprecated
     public String getSecretKey() {
-        return yopRequest.getRequestConfig().getCredentials().getSecretKey();
+        YopPKICredentials yopPKICredentials  = (YopPKICredentials) yopRequest.getRequestConfig().getCredentials();
+        return RSAKeyUtils.key2String(yopPKICredentials.getCredential().getPrivateKey());
     }
 
     public Boolean isNeedEncrypt() {
@@ -221,15 +228,17 @@ public class YopRequest {
     }
 
     public String getEncryptKey() {
-        if (yopRequest.getRequestConfig().getCredentials() instanceof YopRSACredentials) {
-            YopRSACredentials yopRSACredentials = (YopRSACredentials) yopRequest.getRequestConfig().getCredentials();
+        if (yopRequest.getRequestConfig().getCredentials() instanceof YopPKICredentials) {
+            YopPKICredentials yopRSACredentials = (YopPKICredentials) yopRequest.getRequestConfig().getCredentials();
             return yopRSACredentials.getEncryptKey();
         }
         return null;
     }
 
     public void setEncryptKey(String encryptKey) {
-        yopRequest.getRequestConfig().setCredentials(new YopRSACredentials(getAppKey(), getEncryptKey(), encryptKey));
+        PKICredentialsItem pkiCredentialsItem = new PKICredentialsItem(RSAKeyUtils.string2PrivateKey(encryptKey), null, CertTypeEnum.RSA2048);
+        YopPKICredentials yopPKICredentials = new YopPKICredentials(null, null, pkiCredentialsItem);
+        yopRequest.getRequestConfig().setCredentials(yopPKICredentials);
     }
 
     public String getAppKey() {
