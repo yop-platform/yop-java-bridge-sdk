@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.yeepay.yop.sdk</groupId>
     <artifactId>yop-java-bridge-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>4.0.6-SNAPSHOT</version>
+    <version>4.0.6</version>
 
     <name>yop-java-bridge-sdk</name>
     <url>https://github.com/yop-platform/yop-java-bridge-sdk</url>
@@ -245,7 +244,8 @@
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                             <tagNameFormat>v@{project.version}</tagNameFormat>
                             <!--                    <arguments>-DskipTests</arguments>-->
-                            <preparationGoals>deploy clean verify</preparationGoals>
+                            <preparationGoals>clean verify</preparationGoals>
+                            <preparationGoals>deploy</preparationGoals>
                         </configuration>
                     </plugin>
 
