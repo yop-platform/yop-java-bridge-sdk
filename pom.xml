@@ -3,7 +3,7 @@
     <groupId>com.yeepay.yop.sdk</groupId>
     <artifactId>yop-java-bridge-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>4.0.6</version>
+    <version>4.0.7-SNAPSHOT</version>
 
     <name>yop-java-bridge-sdk</name>
     <url>https://github.com/yop-platform/yop-java-bridge-sdk</url>
@@ -125,7 +125,6 @@
         <url>https://github.com/yop-platform/yop-java-bridge-sdk</url>
         <connection>scm:git:git@github.com:yop-platform/yop-java-bridge-sdk.git</connection>
         <developerConnection>scm:git:git@github.com:yop-platform/yop-java-bridge-sdk.git</developerConnection>
-        <tag>v4.0.6</tag>
     </scm>
 
     <developers>
@@ -139,7 +138,6 @@
     <profiles>
         <profile>
             <id>release</id>
-
             <build>
                 <plugins>
                     <plugin>
@@ -244,8 +242,6 @@
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                             <tagNameFormat>v@{project.version}</tagNameFormat>
                             <!--                    <arguments>-DskipTests</arguments>-->
-                            <preparationGoals>clean verify</preparationGoals>
-                            <preparationGoals>deploy</preparationGoals>
                         </configuration>
                     </plugin>
 
