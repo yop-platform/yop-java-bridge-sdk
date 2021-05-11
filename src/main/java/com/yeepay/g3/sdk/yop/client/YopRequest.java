@@ -5,7 +5,14 @@ import com.yeepay.g3.sdk.yop.client.router.YopConstants;
 import com.yeepay.g3.sdk.yop.encrypt.Assert;
 import com.yeepay.g3.sdk.yop.exception.YopClientException;
 import com.yeepay.g3.sdk.yop.http.Headers;
-import com.yeepay.yop.sdk.auth.credentials.YopRSACredentials;
+import com.yeepay.yop.sdk.auth.credentials.YopPKICredentials;
+import com.yeepay.yop.sdk.config.enums.CertStoreType;
+import com.yeepay.yop.sdk.config.provider.YopSdkConfigProviderRegistry;
+import com.yeepay.yop.sdk.config.provider.file.YopCertConfig;
+import com.yeepay.yop.sdk.config.provider.file.YopFileSdkConfig;
+import com.yeepay.yop.sdk.config.provider.file.YopFileSdkConfigProvider;
+import com.yeepay.yop.sdk.security.CertTypeEnum;
+import com.yeepay.yop.sdk.security.rsa.RSAKeyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -56,7 +63,15 @@ public class YopRequest {
     public YopRequest(String appKey, String secretKey) {
         Validate.notBlank(appKey, "AppKey is blank.");
         Validate.notBlank(secretKey, "SecretKey is blank.");
-        yopRequest.getRequestConfig().setCredentials(new YopRSACredentials(appKey, secretKey));
+        YopFileSdkConfigProvider yopFileSdkConfigProvider = (YopFileSdkConfigProvider) (YopSdkConfigProviderRegistry.getProvider());
+        YopFileSdkConfig yopFileSdkConfig = yopFileSdkConfigProvider.loadSdkConfig(appKey);
+        YopCertConfig yopCertConfig = new YopCertConfig();
+        yopCertConfig.setCertType(CertTypeEnum.RSA2048);
+        yopCertConfig.setStoreType(CertStoreType.STRING);
+        yopCertConfig.setValue(secretKey);
+        YopCertConfig[] yopCertConfigs = new YopCertConfig[1];
+        yopCertConfigs[0] = yopCertConfig;
+        yopFileSdkConfig.setIsvPrivateKey(yopCertConfigs);
     }
 
     public YopRequest setSubCustomerId(String subCustomerId) {
@@ -209,7 +224,8 @@ public class YopRequest {
 
     @Deprecated
     public String getSecretKey() {
-        return yopRequest.getRequestConfig().getCredentials().getSecretKey();
+        YopPKICredentials yopPKICredentials = (YopPKICredentials) yopRequest.getRequestConfig().getCredentials();
+        return RSAKeyUtils.key2String(yopPKICredentials.getCredential().getPrivateKey());
     }
 
     public Boolean isNeedEncrypt() {
@@ -220,18 +236,6 @@ public class YopRequest {
         this.yopRequest.getRequestConfig().setNeedEncrypt(needEncrypt);
     }
 
-    public String getEncryptKey() {
-        if (yopRequest.getRequestConfig().getCredentials() instanceof YopRSACredentials) {
-            YopRSACredentials yopRSACredentials = (YopRSACredentials) yopRequest.getRequestConfig().getCredentials();
-            return yopRSACredentials.getEncryptKey();
-        }
-        return null;
-    }
-
-    public void setEncryptKey(String encryptKey) {
-        yopRequest.getRequestConfig().setCredentials(new YopRSACredentials(getAppKey(), getEncryptKey(), encryptKey));
-    }
-
     public String getAppKey() {
         return yopRequest.getRequestConfig().getAppKey();
     }
@@ -239,7 +243,6 @@ public class YopRequest {
     public com.yeepay.yop.sdk.service.common.request.YopRequest getYopRequest() {
         return this.yopRequest;
     }
-
 
     /**
      * 将参数转换成k=v拼接的形式
