@@ -39,18 +39,10 @@ public final class InternalConfig {
         YopSdkConfig config = YopSdkConfigProviderRegistry.getProvider().getConfig();
         if (config != null && config.getYopHttpClientConfig() != null) {
             YopHttpClientConfig clientConfig = config.getYopHttpClientConfig();
-            if (clientConfig.getConnectTimeout() != null) {
-                CONNECT_TIMEOUT = clientConfig.getConnectTimeout();
-            }
-            if (clientConfig.getReadTimeout() != null) {
-                READ_TIMEOUT = clientConfig.getReadTimeout();
-            }
-            if (clientConfig.getMaxConnTotal() != null) {
-                MAX_CONN_TOTAL = clientConfig.getMaxConnTotal();
-            }
-            if (clientConfig.getMaxConnPerRoute() != null) {
-                MAX_CONN_PER_ROUTE = clientConfig.getMaxConnPerRoute();
-            }
+            CONNECT_TIMEOUT = clientConfig.getConnectTimeout();
+            READ_TIMEOUT = clientConfig.getReadTimeout();
+            MAX_CONN_TOTAL = clientConfig.getMaxConnTotal();
+            MAX_CONN_PER_ROUTE = clientConfig.getMaxConnPerRoute();
             proxy = config.getProxy();
             TRUST_ALL_CERTS = config.getTrustAllCerts();
         }
@@ -78,18 +70,5 @@ public final class InternalConfig {
         }
         return null;
     }
-
-//    public static PrivateKey getISVPrivateKey(String appKey, CertTypeEnum certType) {
-//        YopSdkConfig YopSdkConfig = YopCredentialsProviderRegistry.getProvider().getCredentials(appKey, certType);
-//        if (YopSdkConfig == null) {
-//            throw new YopServiceException("SDKConfig for appKey:" + appKey + " not exist.");
-//        }
-//        return YopSdkConfig.(parseCertTypeEnum(certType));
-//    }
-//
-//    public static PrivateKey getISVPrivateKey(CertTypeEnum certType) {
-//        YopSdkConfig defaultYopSdkConfig = YopSdkConfigProviderRegistry.getProvider().getDefaultConfig();
-//        return defaultYopSdkConfig.loadPrivateKey(parseCertTypeEnum(certType));
-//    }
 
 }
