@@ -33,7 +33,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.yeepay.yop.sdk</groupId>
   <artifactId>yop-java-bridge-sdk</artifactId>
-  <version>4.1.1</version>
+  <version>4.1.9</version>
   <scope>compile</scope>
 </dependency>
 ```
