@@ -18,7 +18,7 @@
         <guava.version>30.0-jre</guava.version>
         <jackson.version>2.11.2</jackson.version>
         <jackson-databind.version>2.11.2</jackson-databind.version>
-        <yop-java-sdk.version>4.1.6</yop-java-sdk.version>
+        <yop-java-sdk.version>4.1.9</yop-java-sdk.version>
         <junit-version>4.13.1</junit-version>
         <slf4j-api.version>1.7.21</slf4j-api.version>
     </properties>
