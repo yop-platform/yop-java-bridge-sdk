@@ -33,7 +33,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.yeepay.yop.sdk</groupId>
   <artifactId>yop-java-bridge-sdk</artifactId>
-  <version>4.1.9</version>
+  <version>4.1.12</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -43,5 +43,5 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.yeepay.yop.sdk:yop-java-bridge-sdk:4.1.1"
+compile "com.yeepay.yop.sdk:yop-java-bridge-sdk:4.1.12"
 ```
