@@ -16,7 +16,7 @@
         <commons-codec.version>1.10</commons-codec.version>
         <commons-io.version>2.7</commons-io.version>
         <guava.version>30.0-jre</guava.version>
-        <jackson.version>2.11.2</jackson.version>
+        <jackson.version>2.13.4.1</jackson.version>
         <jackson-databind.version>2.11.2</jackson-databind.version>
         <yop-java-sdk.version>4.1.12</yop-java-sdk.version>
         <junit-version>4.13.1</junit-version>
